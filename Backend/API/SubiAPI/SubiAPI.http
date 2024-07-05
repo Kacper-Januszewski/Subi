@@ -1,0 +1,6 @@
+@SubiAPI_HostAddress = http://localhost:5129
+
+GET {{SubiAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
