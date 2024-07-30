@@ -32,6 +32,8 @@ namespace SubiAPI
             app.MapControllers();
 
             app.Run();
+
+            //biernat kox
         }
     }
 }
