@@ -1,6 +1,8 @@
 # Stage 1: Build the React application
 FROM node:14 AS build
 
+ENTRYPOINT []
+
 WORKDIR /app
 
 # Copy package.json and package-lock.json first to leverage Docker cache
