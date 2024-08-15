@@ -25,5 +25,8 @@ COPY --from=build /app/build /usr/share/nginx/html
 # Expose the default port nginx uses
 EXPOSE 80
 
+# Override the entrypoint to start nginx
+ENTRYPOINT ["nginx", "-g", "daemon off;"]
+
 # Start nginx
-CMD ["nginx", "-g", "daemon off;"]
+#CMD ["nginx", "-g", "daemon off;"]
