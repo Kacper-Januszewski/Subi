@@ -20,8 +20,10 @@ function App() {
           Learn React
         </a>
           <div>
+              <a href={"profile.html"}>profile</a>
+          </div>
+          <div>
               <LoginComponent />
-              <a href={"profile.html"}></a>
           </div>
       </header>
     </div>
