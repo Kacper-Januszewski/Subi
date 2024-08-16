@@ -1,5 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
+import LoginComponent from "./LoginComponent";
 
 function App() {
   return (
@@ -18,6 +19,10 @@ function App() {
         >
           Learn React
         </a>
+          <div>
+              <LoginComponent />
+              <a href={"profile.html"}></a>
+          </div>
       </header>
     </div>
   );

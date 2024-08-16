@@ -1,6 +1,7 @@
 ﻿using Npgsql;
 using Microsoft.AspNetCore.Mvc;
 using SubiAPI.DTOs;
+using SubiAPI.Classes;
 
 namespace SubiAPI.Controllers
 {
