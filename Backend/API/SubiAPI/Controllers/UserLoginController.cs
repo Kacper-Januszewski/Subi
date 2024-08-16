@@ -1,9 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Npgsql; // Use Npgsql for PostgreSQL connections
+﻿using Npgsql;
 using Microsoft.AspNetCore.Mvc;
 using SubiAPI.DTOs;
-using Microsoft.Extensions.Configuration;
-using System.Collections.Generic;
 
 namespace SubiAPI.Controllers
 {
@@ -19,25 +16,15 @@ namespace SubiAPI.Controllers
         }
 
         [HttpGet("users")]
-        public IActionResult GetAllUsers([FromQuery] string orderBy = "Username")
+        public IActionResult GetAllUsers()
         {
             var response = new List<GetUsersResponse>();
 
             // Replace SqlConnection with NpgsqlConnection
             using (var npgsqlConnection = new NpgsqlConnection(_configuration.GetConnectionString("Default")))
             {
-                string orderByClause;
-                if (string.IsNullOrEmpty(orderBy))
-                {
-                    orderByClause = "ORDER BY Username";
-                }
-                else
-                {
-                    orderByClause = $"ORDER BY {orderBy}";
-                }
-
                 // Use NpgsqlCommand instead of SqlCommand
-                var npgsqlCommand = new NpgsqlCommand($"SELECT * FROM \"User\" {orderByClause}", npgsqlConnection);
+                var npgsqlCommand = new NpgsqlCommand($"SELECT * FROM \"User\"", npgsqlConnection);
                 npgsqlCommand.Connection.Open();
                 var reader = npgsqlCommand.ExecuteReader();
 
