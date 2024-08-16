@@ -1,4 +1,3 @@
-
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -10,6 +9,18 @@ namespace SubiAPI
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            // Configure CORS
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowReactApp",
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin()
+                               .AllowAnyMethod()
+                               .AllowAnyHeader();
+                    });
+            });
 
             // Configure JWT authentication
             builder.Services.AddAuthentication(options =>
@@ -32,7 +43,6 @@ namespace SubiAPI
             });
 
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
@@ -47,14 +57,13 @@ namespace SubiAPI
 
             app.UseHttpsRedirection();
 
+            // Enable CORS
+            app.UseCors("AllowReactApp");
+
             app.UseAuthorization();
-
-
             app.MapControllers();
 
             app.Run();
-
-            //biernat kox
         }
     }
 }
