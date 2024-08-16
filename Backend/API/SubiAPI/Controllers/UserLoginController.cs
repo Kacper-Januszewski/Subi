@@ -23,7 +23,31 @@ namespace SubiAPI.Controllers
         {
             var response = new List<GetUsersResponse>();
 
-            using (var sqlConnection = new SqlConnection(_configuration.GetConnectionString("Default"))) ;
+            using (var sqlConnection = new SqlConnection(_configuration.GetConnectionString("Default")))
+            {
+                string orderByClause;
+                if (string.IsNullOrEmpty(orderBy))
+                {
+                    orderByClause = "ORDER BY Username";
+                }
+                else
+                {
+                    orderByClause = $"ORDER BY {orderBy}";
+                }
+
+                var sqlCommand = new SqlCommand($"SELECT * FROM USER {orderByClause}", sqlConnection);
+                sqlCommand.Connection.Open();
+                var reader = sqlCommand.ExecuteReader();
+                while (reader.Read())
+                {
+                    response.Add(new GetUsersResponse(
+                        reader.GetInt32(0),
+                        reader.GetString(1),
+                        reader.GetString(2)
+                        ));
+                }
+            }
+            return Ok(response);
         }
     }
 }
