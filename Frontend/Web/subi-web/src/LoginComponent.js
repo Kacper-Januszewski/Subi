@@ -9,6 +9,4 @@ function LoginComponent(){
         fetch('https://localhost:5000/Api')
     }, []);
     */}
-
-    const getData
 }
