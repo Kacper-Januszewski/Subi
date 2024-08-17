@@ -20,7 +20,7 @@ function UsersList() {
             <ul>
                 {users.map(user => (
                     <li key={user.id}>
-                        {user.username} - {user.otherField}
+                        {user.username} - {user.password}
                     </li>
                 ))}
             </ul>
