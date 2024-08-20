@@ -16,7 +16,7 @@ function UsersList() {
 
     return (
         <div>
-            <button onClick={fetchUsers}>Fetch Users4</button>
+            <button onClick={fetchUsers}>Fetch Users</button>
             <ul>
                 {users.map(user => (
                     <li key={user.id}>
