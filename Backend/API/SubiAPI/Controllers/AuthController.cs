@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using System.Collections.Generic;
-using SubiAPI.Classes;
+using SubiAPI.Models;
 using SubiAPI.ViewModels;
 
 [ApiController]
