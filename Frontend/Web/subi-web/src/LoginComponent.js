@@ -2,44 +2,59 @@ import React, { useState } from "react";
 import axios from "axios";
 
 function Login() {
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
+    const [formData, setFormData] = useState({
+        username: "",
+        password: ""
+    });
 
+    // Update state on input change
+    const handleInputChange = (event) => {
+        const { name, value } = event.target;
+        setFormData({
+            ...formData,
+            [name]: value,
+        });
+    };
+
+    // Handle form submission
     const handleSubmit = (event) => {
-        event.preventDefault(); // Prevent the form from refreshing the page
+        event.preventDefault();
 
-        // Create a payload for login
-        const loginData = { username, password };
-
-        // Send a POST request to login API
-        axios.post("http://localhost:5000/api/login", loginData)
+        axios.post("http://localhost:5000/api/login", {
+            username: formData.username,
+            password: formData.password,
+        }, {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
             .then(response => {
-                console.log("Login successful", response.data);
+                console.log("Login successful!", response.data);
             })
             .catch(error => {
-                console.error("There was an error logging in!", error);
+                console.error("There was an error with the login!", error.response.data);
             });
     };
 
     return (
         <div>
             <form onSubmit={handleSubmit}>
-                <label htmlFor="username">Username</label><br />
+                <label htmlFor="username">Username:</label><br />
                 <input
                     type="text"
                     id="username"
                     name="username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
+                    value={formData.username}
+                    onChange={handleInputChange}
                 /><br />
 
-                <label htmlFor="password">Password</label><br />
+                <label htmlFor="password">Password:</label><br />
                 <input
                     type="password"
                     id="password"
                     name="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    value={formData.password}
+                    onChange={handleInputChange}
                 /><br /><br />
 
                 <input type="submit" value="Submit" />
