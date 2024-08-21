@@ -5,7 +5,7 @@ function UsersList() {
     const [users, setUsers] = useState([]);
 
     const fetchUsers = () => {
-        axios.get("http://localhost:5000/UserLogin/users")
+        axios.get("http://localhost:5000/api/users")
             .then(response => {
                 setUsers(response.data);
             })
