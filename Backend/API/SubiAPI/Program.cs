@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using SubiAPI.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -41,8 +43,13 @@ namespace SubiAPI
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("yourSecretKey"))
                 };
             });
-
+            
             builder.Services.AddControllers();
+
+            /// register database context using ms entity framework
+            builder.Services.AddDbContext<UserContext>(opt =>
+                opt.UseNpgsql(builder.Configuration.GetConnectionString("Default")));
+
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 

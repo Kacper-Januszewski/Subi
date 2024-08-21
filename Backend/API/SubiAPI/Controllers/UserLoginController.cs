@@ -1,7 +1,7 @@
 ﻿using Npgsql;
 using Microsoft.AspNetCore.Mvc;
 using SubiAPI.DTOs;
-using SubiAPI.Classes;
+using SubiAPI.Models;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
