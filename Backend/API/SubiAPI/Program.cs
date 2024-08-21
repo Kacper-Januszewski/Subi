@@ -3,6 +3,7 @@ using SubiAPI.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using SubiAPI.Services;
 
 namespace SubiAPI
 {
@@ -23,7 +24,7 @@ namespace SubiAPI
                                .AllowAnyHeader();
                     });
             });
-
+            /*
             // Configure JWT authentication
             builder.Services.AddAuthentication(options =>
             {
@@ -43,13 +44,16 @@ namespace SubiAPI
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("yourSecretKey"))
                 };
             });
-            
-            builder.Services.AddControllers();
+            */
+
+            //Registering Authentication Service from Services Folder. This handles logic part of code
+            builder.Services.AddScoped<AuthService>();
 
             /// register database context using ms entity framework
             builder.Services.AddDbContext<UserContext>(opt =>
                 opt.UseNpgsql(builder.Configuration.GetConnectionString("Default")));
 
+            builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 

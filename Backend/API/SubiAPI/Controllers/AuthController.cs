@@ -1,44 +1,44 @@
-﻿// Controllers/AuthController.cs
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SubiAPI.Models;
-using SubiAPI.ViewModels;
+using System.ServiceModel;
+using NuGet.Common;
+using SubiAPI.Services;
 
-[ApiController]
-[Route("api/[controller]")]
-public class AuthController : ControllerBase
+namespace SubiAPI.Controllers
 {
-    [HttpPost("login")]
-    public IActionResult Login([FromBody] LoginViewModel model)
+    [Route("api/login")]
+    [ApiController]
+    public class AuthController : ControllerBase
     {
-        if (ModelState.IsValid)
+
+        private readonly AuthService _authService;
+
+        public AuthController(AuthService authService)
         {
-            // Replace this with your actual authentication logic
-            if (AuthenticateUser(model.Username, model.Password))
-            {
-                // Generate a JWT token
-                var token = GenerateJwtToken(model.Username);
-
-                // Return the token to the client
-                return Ok(new { Token = token });
-            }
-            return Unauthorized("Invalid login attempt.");
+            _authService = authService;
         }
-        return BadRequest("Invalid request.");
-    }
 
-    private bool AuthenticateUser(string username, string password)
-    {
-        // Implement your authentication logic here
-        // For example, check against a database or a list of users
-        return username == "admin" && password == "password"; // Example condition
-    }
+        //this sends a POST request and uses Auth Service logic to check if username and password are correct. Then it returns Ok with auth token or Unauthorized with message.
+        [HttpPost]
+        public async Task<IActionResult> Login(string username, string password)
+        {
+            bool isAuthenticated = await _authService.AuthenticateUserAsync(username, password);
 
-    private string GenerateJwtToken(string username)
-    {
-        // Implement JWT token generation logic here
-        // You can use a library like System.IdentityModel.Tokens.Jwt
-        return "your-jwt-token"; // Replace this with actual token generation
+            if (isAuthenticated)
+            {
+                //generate token
+                return Ok("token");
+            }
+            else
+            {
+                return Unauthorized("Invalid username or password");
+            }
+        }
     }
 }
