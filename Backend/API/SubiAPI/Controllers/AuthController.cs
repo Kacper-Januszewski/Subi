@@ -26,9 +26,14 @@ namespace SubiAPI.Controllers
 
         //this sends a POST request and uses Auth Service logic to check if username and password are correct. Then it returns Ok with auth token or Unauthorized with message.
         [HttpPost]
-        public async Task<IActionResult> Login(string username, string password)
+        public async Task<IActionResult> Login([FromBody] User user)
         {
-            bool isAuthenticated = await _authService.AuthenticateUserAsync(username, password);
+            if (user == null || string.IsNullOrEmpty(user.username) || string.IsNullOrEmpty(user.password))
+            {
+                return BadRequest("Username and password are required.");
+            }
+
+            bool isAuthenticated = await _authService.AuthenticateUserAsync(user.username, user.password);
 
             if (isAuthenticated)
             {

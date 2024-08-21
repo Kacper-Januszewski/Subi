@@ -48,6 +48,9 @@ namespace SubiAPI
 
             //Registering Authentication Service from Services Folder. This handles logic part of code
             builder.Services.AddScoped<AuthService>();
+            builder.Services.AddControllers().AddJsonOptions(options => {
+                options.JsonSerializerOptions.PropertyNamingPolicy = null;
+            });
 
             /// register database context using ms entity framework
             builder.Services.AddDbContext<UserContext>(opt =>
