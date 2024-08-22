@@ -7,6 +7,8 @@ function Login() {
         password: ""
     });
 
+    const [message, setMessage] = useState("");
+
     // Update state on input change
     const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -29,9 +31,11 @@ function Login() {
             }
         })
             .then(response => {
+                setMessage("Login successful!");  // Set success message
                 console.log("Login successful!", response.data);
             })
             .catch(error => {
+                setMessage(error.response.data.message || "There was an error with the login!");  // Set error message
                 console.error("There was an error with the login!", error.response.data);
             });
     };
@@ -59,6 +63,9 @@ function Login() {
 
                 <input type="submit" value="Submit" />
             </form>
+
+            {/* Conditionally render the message */}
+            {message && <p>{message}</p>}
         </div>
     );
 }
